@@ -4,9 +4,9 @@ locals {
 
   vpc_cidr = var.vpc_cidr_block
   azs      = var.availability_zones
-  
+
   tags = merge(var.vpc_tags, {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   })
 }
@@ -85,7 +85,7 @@ resource "aws_subnet" "database" {
 resource "aws_eip" "nat" {
   count = length(local.azs)
 
-  domain = "vpc"
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.main]
 
   tags = merge(local.tags, {

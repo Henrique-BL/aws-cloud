@@ -13,14 +13,13 @@ data "aws_ami" "amazon_linux" {
     values = ["hvm"]
   }
 }
-
 # Security group for EC2 instance
 resource "aws_security_group" "ec2" {
   name_prefix = "${var.instance_name}-sg"
   description = "Security group for EC2 instance to access RDS"
   vpc_id      = var.vpc_id
 
-  # SSH access
+  # SSH access - restrict to your IP range
   ingress {
     description = "SSH"
     from_port   = 22
@@ -35,7 +34,7 @@ resource "aws_security_group" "ec2" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allowed_cidr_blocks
   }
 
   # HTTPS access
@@ -44,7 +43,7 @@ resource "aws_security_group" "ec2" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allowed_cidr_blocks
   }
 
   # All outbound traffic
@@ -53,7 +52,7 @@ resource "aws_security_group" "ec2" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allowed_cidr_blocks
   }
 
   tags = merge(var.tags, {
@@ -65,10 +64,9 @@ resource "aws_security_group" "ec2" {
 resource "aws_instance" "main" {
   ami                    = data.aws_ami.amazon_linux.id
   instance_type          = var.instance_type
-  key_name              = var.key_name != "" ? var.key_name : null
+  key_name               = var.key_name != "" ? var.key_name : null
   vpc_security_group_ids = [aws_security_group.ec2.id]
-  subnet_id             = var.subnet_ids[0]  # Launch in the first subnet
-  
+  subnet_id              = var.public_subnets[0] 
   tags = merge(var.tags, {
     Name = var.instance_name
   })

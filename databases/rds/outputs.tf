@@ -1,60 +1,3 @@
-# VPC Outputs
-output "vpc_id" {
-  description = "ID of the VPC"
-  value       = module.vpc.vpc_id
-}
-
-output "vpc_cidr_block" {
-  description = "CIDR block of the VPC"
-  value       = module.vpc.vpc_cidr_block
-}
-
-output "private_subnets" {
-  description = "List of IDs of private subnets"
-  value       = module.vpc.private_subnets
-}
-
-output "public_subnets" {
-  description = "List of IDs of public subnets"
-  value       = module.vpc.public_subnets
-}
-
-output "database_subnets" {
-  description = "List of IDs of database subnets"
-  value       = module.vpc.database_subnets
-}
-
-output "database_subnet_group" {
-  description = "ID of database subnet group"
-  value       = module.vpc.database_subnet_group
-}
-
-# EC2 Outputs
-output "ec2_instance_id" {
-  description = "ID of the EC2 instance"
-  value       = module.ec2.instance_id
-}
-
-output "ec2_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = module.ec2.instance_public_ip
-}
-
-output "ec2_private_ip" {
-  description = "Private IP address of the EC2 instance"
-  value       = module.ec2.instance_private_ip
-}
-
-output "ec2_public_dns" {
-  description = "Public DNS name of the EC2 instance"
-  value       = module.ec2.instance_public_dns
-}
-
-output "ec2_security_group_id" {
-  description = "ID of the EC2 security group"
-  value       = module.ec2.security_group_id
-}
-
 # RDS Outputs
 output "rds_instance_id" {
   description = "The RDS instance ID"
@@ -112,11 +55,6 @@ output "database_connection_info" {
     username = aws_db_instance.postgres.username
   }
   sensitive = true
-}
-
-output "ssh_connection_command" {
-  description = "SSH command to connect to the EC2 instance"
-  value       = var.ec2_key_name != "" ? "ssh -i ~/.ssh/${var.ec2_key_name}.pem ec2-user@${module.ec2.instance_public_ip}" : "SSH key not configured"
 }
 
 output "database_test_command" {

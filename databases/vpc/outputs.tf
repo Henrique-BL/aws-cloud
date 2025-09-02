@@ -48,13 +48,6 @@ output "vpc_main_route_table_id" {
   value       = aws_vpc.main.main_route_table_id
 }
 
-
-
-output "vpc_secondary_cidr_blocks" {
-  description = "List of secondary CIDR blocks of the VPC"
-  value       = []
-}
-
 output "vpc_owner_id" {
   description = "The ID of the AWS account that owns the VPC"
   value       = aws_vpc.main.owner_id
@@ -98,26 +91,6 @@ output "public_subnets_cidr_blocks" {
 output "public_subnets_ipv6_cidr_blocks" {
   description = "List of IPv6 cidr_blocks of public subnets in an IPv6 enabled VPC"
   value       = aws_subnet.public[*].ipv6_cidr_block
-}
-
-output "outpost_subnets" {
-  description = "List of IDs of outpost subnets"
-  value       = []
-}
-
-output "outpost_subnet_arns" {
-  description = "List of ARNs of outpost subnets"
-  value       = []
-}
-
-output "outpost_subnets_cidr_blocks" {
-  description = "List of cidr_blocks of outpost subnets"
-  value       = []
-}
-
-output "outpost_subnets_ipv6_cidr_blocks" {
-  description = "List of IPv6 cidr_blocks of outpost subnets in an IPv6 enabled VPC"
-  value       = []
 }
 
 output "database_subnets" {
@@ -175,11 +148,6 @@ output "database_nat_gateway_route_ids" {
 output "private_nat_gateway_route_ids" {
   description = "List of IDs of the private nat gateway route"
   value       = aws_route_table.private[*].id
-}
-
-output "private_ipv6_egress_route_ids" {
-  description = "List of IDs of the ipv6 egress route"
-  value       = []
 }
 
 output "private_route_table_association_ids" {

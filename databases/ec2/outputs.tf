@@ -37,3 +37,8 @@ output "security_group_arn" {
   description = "ARN of the security group attached to the EC2 instance"
   value       = aws_security_group.ec2.arn
 }
+
+output "key_name" {
+  description = "Name of the AWS key pair used by the EC2 instance"
+  value       = var.key_name
+}

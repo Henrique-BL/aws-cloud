@@ -1,16 +1,8 @@
-# VPC Configuration Variables
-variable "vpc_name" {
-  description = "Name for the VPC"
+variable "ec2_key_name" {
+  description = "Name of the AWS key pair for EC2 instance"
   type        = string
-  default     = "rds-vpc"
+  default     = ""
 }
-
-variable "vpc_cidr_block" {
-  description = "CIDR block for the VPC"
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
 variable "availability_zones" {
   description = "List of availability zones"
   type        = list(string)
@@ -21,13 +13,13 @@ variable "availability_zones" {
 variable "db_identifier" {
   description = "The name of the RDS instance"
   type        = string
-  default     = "postgres-db"
+  default     = "postgres-example-db"
 }
 
 variable "db_name" {
   description = "The name of the database to create when the DB instance is created"
   type        = string
-  default     = "mydb"
+  default     = "aws_cloud_studies_db"
 }
 
 variable "db_username" {
@@ -57,7 +49,7 @@ variable "db_allocated_storage" {
 variable "db_max_allocated_storage" {
   description = "The upper limit to which Amazon RDS can automatically scale the storage of the DB instance"
   type        = number
-  default     = 100
+  default     = 20
 }
 
 variable "db_engine_version" {
@@ -96,25 +88,6 @@ variable "db_skip_final_snapshot" {
   default     = true
 }
 
-# EC2 Configuration Variables
-variable "ec2_instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t3.micro"
-}
-
-variable "ec2_key_name" {
-  description = "Name of the AWS key pair for EC2 instance"
-  type        = string
-  default     = ""
-}
-
-variable "ec2_allowed_cidr_blocks" {
-  description = "List of CIDR blocks allowed to SSH to the EC2 instance"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
-
 # Common Tags
 variable "tags" {
   description = "A map of tags to assign to the resources"
@@ -124,4 +97,25 @@ variable "tags" {
     Project     = "rds-postgres"
     Terraform   = "true"
   }
+}
+
+# VPC-related variables passed from root module
+variable "vpc_id" {
+  description = "ID of the VPC where resources will be created"
+  type        = string
+}
+
+variable "vpc_cidr_block" {
+  description = "CIDR block of the VPC"
+  type        = string
+}
+
+variable "database_subnet_group_name" {
+  description = "Name of the database subnet group"
+  type        = string
+}
+
+variable "rds_security_group_id" {
+  description = "ID of the RDS security group from VPC module"
+  type        = string
 }
